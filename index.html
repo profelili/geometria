@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="bauhaus">
+  <title>Perímetro, Área y Autoevaluación — 7.º Grado (Maksim)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Bauhaus) */
+      --background: #f5f0e8;
+      --surface-container-low: #f2ede5;
+      --surface-container: #eee9e0;
+      --surface-container-high: #e8e3da;
+      --surface-paper-white: #faf7f2;
+
+      /* Ink */
+      --on-surface: #1a1a1a;
+      --on-surface-variant: #4a4a4a;
+
+      /* Lines */
+      --outline: #1a1a1a;
+      --outline-variant: #d0cbc3;
+
+      /* Accents */
+      --primary: #1a1a1a;
+      --on-primary: #ffffff;
+      --primary-container: #ffcc00;
+      --on-primary-container: #1a1a1a;
+      --secondary: #e63b2e;
+      --tertiary: #0055ff;
+      --on-tertiary: #ffffff;
+      --error: #cc0000;
+      --on-error: #ffffff;
+
+      /* Semantic */
+      --positive: #0d7a3e;
+      --positive-bg: #dff5e8;
+      --warning: #9a7300;
+      --warning-bg: #fff3c4;
+      --error-bg: #fde2e2;
+      --focus: #0055ff;
+
+      /* Data series */
+      --data-1: #e63b2e;
+      --data-2: #0055ff;
+      --data-3: #1a1a1a;
+      --data-4: #9a7300;
+      --data-context: #b5afa5;
+
+      /* Fonts */
+      --font-headline: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-label: 'Space Grotesk', sans-serif;
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.5rem, 1.4rem + 3.8vw, 4.5rem);
+      --headline-size: clamp(1.75rem, 1.25rem + 1.8vw, 2.5rem);
+      --subhead-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem);
+      --body-size: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.75rem;
+
+      /* Effects */
+      --border-thick: 3px solid var(--outline);
+      --border-medium: 2px solid var(--outline);
+      --border-thin: 1px solid var(--outline-variant);
+      --offset-shadow: 5px 5px 0 var(--outline);
+      --offset-shadow-sm: 3px 3px 0 var(--outline);
+      --rule-heavy: 6px solid var(--outline);
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; margin: 0; padding: 0; }
+    header { position: static !important; }
+
+    body {
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1180px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Top utility bar (static header, flush-left with right-aligned language & grade pill) */
+    .masthead {
+      border-bottom: var(--rule-heavy);
+      padding-bottom: var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+    }
+
+    .masthead-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .tag-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background: var(--tertiary);
+      color: var(--on-tertiary);
+    }
+
+    .tag-yellow {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .tag-black {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Language Toggle */
+    .lang-switch {
+      display: inline-flex;
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      background: var(--surface-container-low);
+    }
+
+    .lang-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: none;
+      background: transparent;
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-in-out), color var(--dur-micro) var(--ease-in-out);
+    }
+
+    .lang-btn + .lang-btn {
+      border-left: var(--border-medium);
+    }
+
+    .lang-btn[aria-pressed="true"] {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .lang-btn:hover:not([aria-pressed="true"]) {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Hero Title */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+
+    .title mark {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      padding-inline: var(--space-xs);
+      box-decoration-break: clone;
+    }
+
+    .lede {
+      font-size: var(--subhead-size);
+      line-height: 1.45;
+      color: var(--on-surface-variant);
+      max-width: 60ch;
+      margin: 0 0 var(--space-lg) 0;
+    }
+
+    /* Quick Jump Nav */
+    .jump-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .jump-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      box-shadow: var(--offset-shadow-sm);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .jump-link:hover {
+      background: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-1px, -1px);
+    }
+
+    /* Bauhaus Block */
+    .block {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background: var(--surface-container-low);
+      padding: var(--space-lg);
+    }
+
+    .block-white {
+      background: var(--surface-paper-white);
+    }
+
+    .block-yellow {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .block-blue {
+      background: var(--tertiary);
+      color: var(--on-tertiary);
+    }
+
+    /* Scoreboard Hero Card */
+    .score-card {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .kicker {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xs) var(--space-sm);
+      width: fit-content;
+    }
+
+    .kicker-yellow {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border: var(--border-medium);
+    }
+
+    .kicker-blue {
+      background: var(--tertiary);
+      color: var(--on-tertiary);
+    }
+
+    .score-big {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 2rem + 1.5vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      margin: var(--space-xs) 0;
+    }
+
+    .progress-track {
+      height: 14px;
+      border: var(--border-medium);
+      background: var(--surface-container-high);
+      width: 100%;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--tertiary);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .caption {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    .block-yellow .caption,
+    .block-blue .caption {
+      color: inherit;
+    }
+
+    /* Section Openings */
+    .section-open {
+      --accent: var(--tertiary);
+      border-top: var(--space-sm) solid var(--accent);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-lg);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .section-accent-red { --accent: var(--secondary); }
+    .section-accent-blue { --accent: var(--tertiary); }
+    .section-accent-yellow { --accent: var(--primary-container); }
+    .section-accent-black { --accent: var(--primary); }
+
+    .section-header-row {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: end;
+    }
+
+    h2 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      margin: var(--space-sm) 0 0 0;
+    }
+
+    h3 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      margin: 0 0 var(--space-sm) 0;
+    }
+
+    .prose {
+      max-width: 65ch;
+      margin: 0;
+    }
+
+    /* Asymmetric Workspaces */
+    .lab-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .lab-split-reverse {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .card-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-primary {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .btn-blue {
+      background: var(--tertiary);
+      color: var(--on-tertiary);
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Inputs & Controls */
+    .control-group {
+      display: grid;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-surface);
+    }
+
+    .control-value {
+      font-variant-numeric: tabular-nums;
+      background: var(--primary-container);
+      padding: 2px var(--space-xs);
+      border: 1px solid var(--outline);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      accent-color: var(--tertiary);
+      cursor: pointer;
+    }
+
+    .text-input, .num-input {
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-sm);
+      border: none;
+      border-bottom: var(--border-thick);
+      background: var(--surface-paper-white);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0;
+    }
+
+    .text-input:focus, .num-input:focus {
+      border-bottom-color: var(--tertiary);
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Key Figures */
+    .figure-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+      gap: var(--space-md);
+      border-top: var(--border-thick);
+      padding-top: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .figure-item {
+      display: grid;
+      gap: 2px;
+    }
+
+    .figure-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-surface-variant);
+    }
+
+    .figure-val {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    /* SVG Stage */
+    .svg-stage {
+      width: 100%;
+      background: var(--surface-paper-white);
+      border: var(--border-medium);
+      padding: var(--space-sm);
+      display: block;
+    }
+
+    .svg-stage svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Shape Tabs */
+    .tab-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .tab-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background: var(--surface-paper-white);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: var(--offset-shadow-sm);
+    }
+
+    .tab-btn:hover:not([aria-selected="true"]) {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Formula Banner */
+    .formula-box {
+      border: var(--border-medium);
+      background: var(--surface-container-high);
+      padding: var(--space-md);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.125rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .formula-math {
+      font-variant-numeric: tabular-nums;
+      background: var(--primary-container);
+      padding: 2px var(--space-sm);
+      border: var(--border-medium);
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--surface-container-high);
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--border-thick);
+    }
+
+    td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+
+    .num-col {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    /* Assessment / Exercises */
+    .exercise-list {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .exercise-card {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background: var(--surface-paper-white);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .exercise-card.state-correct {
+      background: var(--positive-bg);
+    }
+
+    .exercise-card.state-wrong {
+      background: var(--error-bg);
+    }
+
+    .exercise-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      border-bottom: var(--border-medium);
+      padding-bottom: var(--space-sm);
+    }
+
+    .exercise-num {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 2px var(--space-sm);
+    }
+
+    .exercise-status {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px var(--space-sm);
+      border: var(--border-medium);
+      background: var(--surface-container);
+    }
+
+    .exercise-status.ok {
+      background: var(--positive);
+      color: var(--on-primary);
+    }
+
+    .exercise-status.err {
+      background: var(--error);
+      color: var(--on-error);
+    }
+
+    .exercise-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .exercise-body.no-fig {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .mc-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+
+    .mc-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: var(--border-medium);
+      background: var(--surface-container-low);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .mc-label:hover {
+      background: var(--primary-container);
+    }
+
+    .mc-label input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--tertiary);
+      flex-shrink: 0;
+    }
+
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: end;
+    }
+
+    .input-field-wrap {
+      flex: 1 1 220px;
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .input-field-wrap label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .feedback-banner {
+      border-left: 5px solid var(--outline);
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .feedback-banner.visible {
+      display: block;
+    }
+
+    .feedback-banner.ok {
+      border-left-color: var(--positive);
+      background: var(--surface-paper-white);
+    }
+
+    .feedback-banner.err {
+      border-left-color: var(--error);
+      background: var(--surface-paper-white);
+    }
+
+    /* Grade Summary Panel */
+    .grade-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .grade-badge-box {
+      border: var(--border-thick);
+      background: var(--primary-container);
+      padding: var(--space-lg);
+      text-align: left;
+    }
+
+    .grade-big {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(3rem, 2.2rem + 2vw, 4.25rem);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+
+    .divider {
+      border-top: var(--rule-heavy);
+      margin-block: var(--space-xl);
+    }
+
+    .source-footer {
+      border-top: var(--border-thick);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-xl);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      color: var(--on-surface-variant);
+      font-size: 0.9rem;
+    }
+
+    /* Interactive Grid Counter for Unit Concept */
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      max-width: 300px;
+      border: var(--border-thick);
+      padding: 6px;
+      background: var(--surface-paper-white);
+    }
+
+    .unit-cell {
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--outline);
+      background: var(--surface-container-low);
+      cursor: pointer;
+      min-height: 40px;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .unit-cell.active {
+      background: var(--tertiary);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 820px) {
+      .hero-grid,
+      .section-header-row,
+      .lab-split,
+      .lab-split-reverse,
+      .exercise-body,
+      .grade-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .block, .exercise-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+
+    <!-- MASTHEAD -->
+    <header class="masthead">
+      <div class="masthead-meta">
+        <span class="tag-solid tag-black" data-i18n="meta_grade">Matemática · 7.º Grado</span>
+        <span class="tag-solid tag-yellow" data-i18n="meta_student">Cuaderno de Maksim</span>
+        <span class="tag-solid" data-i18n="meta_scale">Nota base 10 (1 a 10)</span>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Selector de idioma">
+        <button type="button" class="lang-btn" id="btn-lang-es" aria-pressed="true" onclick="setLanguage('es')">ES · Español</button>
+        <button type="button" class="lang-btn" id="btn-lang-ru" aria-pressed="false" onclick="setLanguage('ru')">RU · Русский</button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-grid" aria-labelledby="main-title">
+      <div>
+        <h1 class="title" id="main-title" data-i18n-html="hero_title">Perímetro y <mark>área</mark> de figuras y círculos</h1>
+        <p class="lede" data-i18n="hero_lede">
+          Explorá cómo se miden el contorno y la superficie de polígonos y circunferencias, manipulá modelos geométricos en vivo y resolvé la autoevaluación completa con calificación automática del 1 al 10.
+        </p>
+        <nav class="jump-nav" aria-label="Secciones de la página">
+          <a class="jump-link" href="#sec-unidades" data-i18n="nav_1">1. Unidades y contorno</a>
+          <a class="jump-link" href="#sec-poligonos" data-i18n="nav_2">2. Laboratorio de polígonos</a>
+          <a class="jump-link" href="#sec-circulo" data-i18n="nav_3">3. Pi y el círculo</a>
+          <a class="jump-link" href="#sec-evaluacion" data-i18n="nav_4">4. Autoevaluación (1–10)</a>
+        </nav>
+      </div>
+
+      <aside class="block block-yellow score-card" aria-live="polite">
+        <span class="kicker" data-i18n="hero_card_kicker">Estado de tu autoevaluación</span>
+        <div class="score-big" id="hero-grade">— / 10</div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="hero-progress-fill"></div>
+        </div>
+        <p class="caption" id="hero-progress-text" data-i18n="hero_card_empty">
+          Todavía no verificaste ejercicios. Completá las 10 consignas abajo para calcular tu nota.
+        </p>
+      </aside>
+    </section>
+
+    <!-- SECTION 1: PERÍMETRO VS ÁREA & UNIDADES -->
+    <section id="sec-unidades" class="section-open section-accent-red">
+      <div class="section-header-row">
+        <div>
+          <span class="kicker" data-i18n="s1_kicker">01 · Fundamentos</span>
+          <h2 data-i18n="s1_title">Medir el borde no es lo mismo que cubrir la superficie</h2>
+        </div>
+        <p class="caption" data-i18n="s1_aside">
+          Dos figuras pueden tener exactamente la misma área y distinto perímetro, o el mismo perímetro y distinta área.
+        </p>
+      </div>
+
+      <div class="lab-split">
+        <div class="block block-white">
+          <h3 data-i18n="s1_lab_title">Tablero interactivo: tocá cuadraditos de 1 cm × 1 cm</h3>
+          <p class="prose" data-i18n="s1_lab_desc">
+            Cada celda mide 1 cm de lado (1 cm² de área). Hacé clic en los cuadraditos para armar distintas formas y observá cómo cambian el área y el contorno en tiempo real.
+          </p>
+          <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-lg); align-items: start;">
+            <div class="unit-grid" id="unit-grid" role="grid" aria-label="Cuadrícula interactiva de 6 por 4"></div>
+            <div style="flex: 1 1 200px;">
+              <div class="btn-row" style="margin-bottom: var(--space-md);">
+                <button type="button" class="btn btn-primary" onclick="presetGrid('pentamino')" data-i18n="s1_btn_pent">Pentaminó (5 cm²)</button>
+                <button type="button" class="btn" onclick="presetGrid('rect')" data-i18n="s1_btn_rect">Rectángulo 3×2</button>
+                <button type="button" class="btn" onclick="presetGrid('clear')" data-i18n="s1_btn_clear">Limpiar</button>
+              </div>
+              <div class="figure-row">
+                <div class="figure-item">
+                  <span class="figure-label" data-i18n="lbl_area">Área</span>
+                  <span class="figure-val" id="grid-area-val">5 cm²</span>
+                </div>
+                <div class="figure-item">
+                  <span class="figure-label" data-i18n="lbl_perim">Perímetro</span>
+                  <span class="figure-val" id="grid-perim-val">12 cm</span>
+                </div>
+              </div>
+              <p class="caption" style="margin-top: var(--space-sm);" id="grid-hint" data-i18n="s1_hint">
+                Los pentaminós siempre tienen 5 cuadraditos de área, pero según cómo se unan sus lados el perímetro cambia entre 10 cm y 12 cm.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <span class="kicker kicker-yellow" data-i18n="s1_units_kicker">Sistema Internacional (SI)</span>
+          <h3 style="margin-top: var(--space-sm);" data-i18n="s1_units_title">Equivalencias de superficie</h3>
+          <p class="caption" style="margin-bottom: var(--space-md);" data-i18n="s1_units_desc">
+            Al cambiar de unidad lineal (× 10), la unidad de superficie se multiplica o divide por 100.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-i18n="th_unit">Unidad</th>
+                  <th data-i18n="th_sym">Símbolo</th>
+                  <th class="num-col" data-i18n="th_eq">Equivalencia en m²</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-i18n="u_km2">Kilómetro cuadrado</td>
+                  <td>km²</td>
+                  <td class="num-col">1.000.000 m²</td>
+                </tr>
+                <tr>
+                  <td data-i18n="u_ha">Hectárea (100 m × 100 m)</td>
+                  <td>ha (hm²)</td>
+                  <td class="num-col">10.000 m²</td>
+                </tr>
+                <tr>
+                  <td data-i18n="u_m2">Metro cuadrado</td>
+                  <td>m²</td>
+                  <td class="num-col">1 m²</td>
+                </tr>
+                <tr>
+                  <td data-i18n="u_dm2">Decímetro cuadrado</td>
+                  <td>dm²</td>
+                  <td class="num-col">0,01 m²</td>
+                </tr>
+                <tr>
+                  <td data-i18n="u_cm2">Centímetro cuadrado</td>
+                  <td>cm²</td>
+                  <td class="num-col">0,0001 m²</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: POLÍGONOS INTERACTIVOS -->
+    <section id="sec-poligonos" class="section-open section-accent-blue">
+      <div class="section-header-row">
+        <div>
+          <span class="kicker kicker-blue" data-i18n="s2_kicker">02 · Transformaciones geométricas</span>
+          <h2 data-i18n="s2_title">Todas las áreas nacen del rectángulo</h2>
+        </div>
+        <p class="caption" data-i18n="s2_aside">
+          Recortando y trasladando triángulos, cualquier paralelogramo, trapecio o romboide revela su fórmula exacta.
+        </p>
+      </div>
+
+      <div class="block block-white">
+        <div class="tab-row" role="tablist" aria-label="Selector de polígonos">
+          <button type="button" class="tab-btn" role="tab" id="tab-para" aria-selected="true" onclick="selectPolygon('parallelogram')" data-i18n="poly_para">Paralelogramo</button>
+          <button type="button" class="tab-btn" role="tab" id="tab-trap" aria-selected="false" onclick="selectPolygon('trapezoid')" data-i18n="poly_trap">Trapecio</button>
+          <button type="button" class="tab-btn" role="tab" id="tab-romb" aria-selected="false" onclick="selectPolygon('rhomboid')" data-i18n="poly_romb">Romboide</button>
+        </div>
+
+        <div class="lab-split">
+          <div>
+            <div class="svg-stage">
+              <svg id="poly-svg" viewBox="0 0 520 300" aria-labelledby="poly-svg-title" role="img">
+                <title id="poly-svg-title">Diagrama geométrico interactivo</title>
+                <!-- Rendered by JS -->
+              </svg>
+            </div>
+            <div class="btn-row" style="margin-top: var(--space-md);">
+              <button type="button" class="btn btn-blue" id="btn-transform-poly" onclick="togglePolyTransform()" data-i18n="poly_btn_transform">
+                Mostrar descomposición en rectángulo / triángulos
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="formula-box">
+              <span data-i18n="lbl_formula">Fórmula</span>
+              <span class="formula-math" id="poly-formula">A = b × h</span>
+            </div>
+
+            <div id="poly-controls">
+              <!-- Sliders injected/updated by JS -->
+            </div>
+
+            <div class="figure-row">
+              <div class="figure-item">
+                <span class="figure-label" data-i18n="lbl_area_calc">Área calculada</span>
+                <span class="figure-val" id="poly-area-out">15,0 cm²</span>
+              </div>
+              <div class="figure-item">
+                <span class="figure-label" data-i18n="lbl_perim_approx">Perímetro</span>
+                <span class="figure-val" id="poly-perim-out">17,2 cm</span>
+              </div>
+            </div>
+
+            <p class="caption" id="poly-explanation" style="margin-top: var(--space-md);"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Reference Cards for Polygons -->
+      <div class="card-grid-4">
+        <article class="block">
+          <span class="kicker" data-i18n="ref_rect_k">Rectángulo y cuadrado</span>
+          <h3 style="margin-top: var(--space-sm);">A = b × h</h3>
+          <p class="caption" data-i18n="ref_rect_d">Perímetro: suma de los 4 lados. En el cuadrado de lado L: P = 4 · L y A = L².</p>
+        </article>
+        <article class="block block-yellow">
+          <span class="kicker" data-i18n="ref_para_k">Paralelogramo</span>
+          <h3 style="margin-top: var(--space-sm);">A = b × h</h3>
+          <p class="caption" data-i18n="ref_para_d">La altura (h) es siempre perpendicular (90°) a la base. El lado inclinado solo suma al perímetro.</p>
+        </article>
+        <article class="block">
+          <span class="kicker kicker-blue" data-i18n="ref_trap_k">Trapecio</span>
+          <h3 style="margin-top: var(--space-sm);">A = (B + b) × h / 2</h3>
+          <p class="caption" data-i18n="ref_trap_d">Se promedian la base mayor (B) y la base menor (b), y se multiplica por la altura (h).</p>
+        </article>
+        <article class="block">
+          <span class="kicker" data-i18n="ref_romb_k">Romboide / Rombo</span>
+          <h3 style="margin-top: var(--space-sm);">A = (D × d) / 2</h3>
+          <p class="caption" data-i18n="ref_romb_d">Sus diagonales perpendiculares (D y d) forman la mitad del rectángulo que lo encierra.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CIRCUNFERENCIA, CÍRCULO Y PI -->
+    <section id="sec-circulo" class="section-open section-accent-yellow">
+      <div class="section-header-row">
+        <div>
+          <span class="kicker kicker-yellow" data-i18n="s3_kicker">03 · Circunferencia y círculo</span>
+          <h2 data-i18n="s3_title">El número π (pi) une el diámetro con el contorno y el área</h2>
+        </div>
+        <p class="caption" data-i18n="s3_aside">
+          No importa qué tan grande o chico sea un círculo: si dividís su longitud por su diámetro, siempre obtenés aproximadamente 3,14.
+        </p>
+      </div>
+
+      <div class="lab-split-reverse">
+        <div class="block">
+          <div class="formula-box">
+            <span data-i18n="s3_const">Constante π</span>
+            <span class="formula-math">π ≈ 3,14</span>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="slider-radius">
+              <span data-i18n="s3_lbl_r">Radio (r) en cm</span>
+              <span class="control-value" id="val-radius">5 cm</span>
+            </label>
+            <input type="range" id="slider-radius" min="1" max="15" step="0.5" value="5" oninput="syncRadiusFromSlider(this.value)">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="num-radius">
+              <span data-i18n="s3_lbl_r_num">Ingresar radio exacto (cm)</span>
+            </label>
+            <input type="number" id="num-radius" class="num-input" min="1" max="50" step="0.5" value="5" oninput="syncRadiusFromNumber(this.value)">
+          </div>
+
+          <div class="figure-row">
+            <div class="figure-item">
+              <span class="figure-label" data-i18n="s3_diam">Diámetro (d = 2·r)</span>
+              <span class="figure-val" id="circle-d-out">10,0 cm</span>
+            </div>
+            <div class="figure-item">
+              <span class="figure-label" data-i18n="s3_circ">Longitud (C = 2·π·r)</span>
+              <span class="figure-val" id="circle-c-out">31,40 cm</span>
+            </div>
+            <div class="figure-item">
+              <span class="figure-label" data-i18n="s3_area">Área (A = π·r²)</span>
+              <span class="figure-val" id="circle-a-out">78,50 cm²</span>
+            </div>
+            <div class="figure-item">
+              <span class="figure-label" data-i18n="s3_ratio">Razón C / d</span>
+              <span class="figure-val">3,14</span>
+            </div>
+          </div>
+
+          <p class="caption" style="margin-top: var(--space-md);" data-i18n="s3_diff_note">
+            Recordá la diferencia: la <strong>circunferencia</strong> es solo el borde (se mide en cm); el <strong>círculo</strong> es el borde más todo su interior (se mide en cm²).
+          </p>
+        </div>
+
+        <div class="block block-white">
+          <h3 data-i18n="s3_viz_title">Modelo visual del círculo y desenrollado del perímetro</h3>
+          <div class="svg-stage">
+            <svg id="circle-svg" viewBox="0 0 540 310" aria-labelledby="circle-svg-title" role="img">
+              <title id="circle-svg-title">Modelo de circunferencia, radio, diámetro y longitud C</title>
+              <!-- Rendered by JS -->
+            </svg>
+          </div>
+          <div class="btn-row" style="margin-top: var(--space-md);">
+            <button type="button" class="btn btn-primary" onclick="setCirclePreset(1.5)" data-i18n="s3_p1">Anillo (d = 3 cm)</button>
+            <button type="button" class="btn" onclick="setCirclePreset(10)" data-i18n="s3_p2">Pizza chica (d = 20 cm)</button>
+            <button type="button" class="btn" onclick="setCirclePreset(15)" data-i18n="s3_p3">Pizza grande (d = 30 cm)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: AUTOEVALUACIÓN BASE 10 -->
+    <section id="sec-evaluacion" class="section-open section-accent-black">
+      <div class="section-header-row">
+        <div>
+          <span class="kicker" data-i18n="s4_kicker">04 · Práctica calificada</span>
+          <h2 data-i18n="s4_title">Autoevaluación interactiva (escala 1 a 10)</h2>
+        </div>
+        <p class="caption" data-i18n="s4_aside">
+          Diez problemas inspirados en el cuaderno de 7.º grado. Usá π = 3,14 en los ejercicios con círculos. Cada respuesta correcta suma 1 punto.
+        </p>
+      </div>
+
+      <!-- Live Grade & Actions Panel -->
+      <div class="block block-white grade-panel">
+        <div class="grade-badge-box">
+          <span class="kicker" data-i18n="s4_grade_label">Calificación actual</span>
+          <div class="grade-big" id="eval-grade-num">— / 10</div>
+          <p class="caption" id="eval-grade-verdict" style="margin-top: var(--space-xs);" data-i18n="s4_grade_pending">
+            Sin corregir todavía
+          </p>
+        </div>
+
+        <div>
+          <h3 data-i18n="s4_controls_title">Control de tu hoja de ejercicios</h3>
+          <p class="prose" data-i18n="s4_controls_desc">
+            Podés verificar cada ejercicio por separado mientras practicás, o corregir toda la evaluación al final. Tu progreso se guarda automáticamente.
+          </p>
+          <div class="btn-row" style="margin-top: var(--space-md);">
+            <button type="button" class="btn btn-primary" onclick="gradeAllExercises()" data-i18n="s4_btn_grade_all">Corregir toda la hoja (1–10)</button>
+            <button type="button" class="btn" id="btn-reset-eval" onclick="resetAllExercises(this)" data-i18n="s4_btn_reset">Reiniciar respuestas</button>
+          </div>
+          <p class="caption" id="eval-summary-line" style="margin-top: var(--space-sm);"></p>
+        </div>
+      </div>
+
+      <!-- Exercise Cards Container -->
+      <div class="exercise-list" id="exercise-list"></div>
+    </section>
+
+    <footer class="source-footer">
+      <span data-i18n="footer_src">Contenido adaptado de Matemática — Yo aprender en Séptimo, Capítulo 8: Perímetro y área de figuras (Ministerio de Educación CABA).</span>
+      <span data-i18n="footer_pi">Valor de referencia utilizado: π ≈ 3,14 · Escala de calificación base 10.</span>
+    </footer>
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // I18N DICTIONARY (Spanish AR & Russian)
+    // =========================================================================
+    const I18N = {
+      es: {
+        meta_grade: `Matemática · 7.º Grado`,
+        meta_student: `Cuaderno de Maksim`,
+        meta_scale: `Nota base 10 (1 a 10)`,
+        hero_title: `Perímetro y <mark>área</mark> de figuras y círculos`,
+        hero_lede: `Explorá cómo se miden el contorno y la superficie de polígonos y circunferencias, manipulá modelos geométricos en vivo y resolvé la autoevaluación completa con calificación automática del 1 al 10.`,
+        nav_1: `1. Unidades y contorno`,
+        nav_2: `2. Laboratorio de polígonos`,
+        nav_3: `3. Pi y el círculo`,
+        nav_4: `4. Autoevaluación (1–10)`,
+        hero_card_kicker: `Estado de tu autoevaluación`,
+        hero_card_empty: `Todavía no verificaste ejercicios. Completá las 10 consignas abajo para calcular tu nota.`,
+        s1_kicker: `01 · Fundamentos`,
+        s1_title: `Medir el borde no es lo mismo que cubrir la superficie`,
+        s1_aside: `Dos figuras pueden tener exactamente la misma área y distinto perímetro, o el mismo perímetro y distinta área.`,
+        s1_lab_title: `Tablero interactivo: tocá cuadraditos de 1 cm × 1 cm`,
+        s1_lab_desc: `Cada celda mide 1 cm de lado (1 cm² de área). Hacé clic en los cuadraditos para armar distintas formas y observá cómo cambian el área y el contorno en tiempo real.`,
+        s1_btn_pent: `Pentaminó (5 cm²)`,
+        s1_btn_rect: `Rectángulo 3×2`,
+        s1_btn_clear: `Limpiar`,
+        lbl_area: `Área`,
+        lbl_perim: `Perímetro`,
+        s1_hint: `Los pentaminós siempre tienen 5 cuadraditos de área, pero según cómo se unan sus lados el perímetro cambia entre 10 cm y 12 cm.`,
+        s1_units_kicker: `Sistema Internacional (SI)`,
+        s1_units_title: `Equivalencias de superficie`,
+        s1_units_desc: `Al cambiar de unidad lineal (× 10), la unidad de superficie se multiplica o divide por 100.`,
+        th_unit: `Unidad`,
+        th_sym: `Símbolo`,
+        th_eq: `Equivalencia en m²`,
+        u_km2: `Kilómetro cuadrado`,
+        u_ha: `Hectárea (100 m × 100 m)`,
+        u_m2: `Metro cuadrado`,
+        u_dm2: `Decímetro cuadrado`,
+        u_cm2: `Centímetro cuadrado`,
+        s2_kicker: `02 · Transformaciones geométricas`,
+        s2_title: `Todas las áreas nacen del rectángulo`,
+        s2_aside: `Recortando y trasladando triángulos, cualquier paralelogramo, trapecio o romboide revela su fórmula exacta.`,
+        poly_para: `Paralelogramo`,
+        poly_trap: `Trapecio`,
+        poly_romb: `Romboide`,
+        poly_btn_transform: `Mostrar descomposición en rectángulo / triángulos`,
+        poly_btn_reset: `Ocultar descomposición`,
+        lbl_formula: `Fórmula`,
+        lbl_area_calc: `Área calculada`,
+        lbl_perim_approx: `Perímetro`,
+        ref_rect_k: `Rectángulo y cuadrado`,
+        ref_rect_d: `Perímetro: suma de los 4 lados. En el cuadrado de lado L: P = 4 · L y A = L².`,
+        ref_para_k: `Paralelogramo`,
+        ref_para_d: `La altura (h) es siempre perpendicular (90°) a la base. El lado inclinado solo suma al perímetro.`,
+        ref_trap_k: `Trapecio`,
+        ref_trap_d: `Se promedian la base mayor (B) y la base menor (b), y se multiplica por la altura (h).`,
+        ref_romb_k: `Romboide / Rombo`,
+        ref_romb_d: `Sus diagonales perpendiculares (D y d) forman la mitad del rectángulo que lo encierra.`,
+        s3_kicker: `03 · Circunferencia y círculo`,
+        s3_title: `El número π (pi) une el diámetro con el contorno y el área`,
+        s3_aside: `No importa qué tan grande o chico sea un círculo: si dividís su longitud por su diámetro, siempre obtenés aproximadamente 3,14.`,
+        s3_const: `Constante π`,
+        s3_lbl_r: `Radio (r) en cm`,
+        s3_lbl_r_num: `Ingresar radio exacto (cm)`,
+        s3_diam: `Diámetro (d = 2·r)`,
+        s3_circ: `Longitud (C = 2·π·r)`,
+        s3_area: `Área (A = π·r²)`,
+        s3_ratio: `Razón C / d`,
+        s3_diff_note: `Recordá la diferencia: la <strong>circunferencia</strong> es solo el borde (se mide en cm); el <strong>círculo</strong> es el borde más todo su interior (se mide en cm²).`,
+        s3_viz_title: `Modelo visual del círculo y desenrollado del perímetro`,
+        s3_p1: `Anillo (d = 3 cm)`,
+        s3_p2: `Pizza chica (d = 20 cm)`,
+        s3_p3: `Pizza grande (d = 30 cm)`,
+        s4_kicker: `04 · Práctica calificada`,
+        s4_title: `Autoevaluación interactiva (escala 1 a 10)`,
+        s4_aside: `Diez problemas inspirados en el cuaderno de 7.º grado. Usá π = 3,14 en los ejercicios con círculos. Cada respuesta correcta suma 1 punto.`,
+        s4_grade_label: `Calificación actual`,
+        s4_grade_pending: `Sin corregir todavía`,
+        s4_controls_title: `Control de tu hoja de ejercicios`,
+        s4_controls_desc: `Podés verificar cada ejercicio por separado mientras practicás, o corregir toda la evaluación al final. Tu progreso se guarda automáticamente.`,
+        s4_btn_grade_all: `Corregir toda la hoja (1–10)`,
+        s4_btn_reset: `Reiniciar respuestas`,
+        s4_btn_reset_confirm: `Clic otra vez para confirmar`,
+        s4_btn_check: `Verificar`,
+        s4_status_pending: `Pendiente`,
+        s4_status_ok: `Correcto (+1 pt)`,
+        s4_status_err: `Revisar`,
+        s4_input_lbl: `Tu respuesta numérica`,
+        s4_need_val: `Ingresá o elegí una respuesta antes de verificar.`,
+        s4_summary_fmt: (ok, total, ans) => `Respondidos: ${ans}/${total} · Correctos: ${ok}/${total}`,
+        s4_hero_fmt: (ok, total) => `${ok} de ${total} consignas correctas en la escala base 10.`,
+        verdict_10: `¡Excelente! Dominás perímetros, áreas y π.`,
+        verdict_8: `¡Muy bien! Comprensión sólida de figuras y círculos.`,
+        verdict_6: `Aprobado. Repasá los ejercicios marcados en rojo.`,
+        verdict_low: `Seguí practicando con los laboratorios de arriba y volvé a intentar.`,
+        footer_src: `Contenido adaptado de Matemática — Yo aprender en Séptimo, Capítulo 8: Perímetro y área de figuras (Ministerio de Educación CABA).`,
+        footer_pi: `Valor de referencia utilizado: π ≈ 3,14 · Escala de calificación base 10.`,
+        poly_ctrl_b: `Base (b) en cm`,
+        poly_ctrl_h: `Altura (h) en cm`,
+        poly_ctrl_skew: `Desplazamiento lateral (cm)`,
+        poly_ctrl_B: `Base mayor (B) en cm`,
+        poly_ctrl_bmin: `Base menor (b) en cm`,
+        poly_ctrl_D: `Diagonal mayor (D) en cm`,
+        poly_ctrl_d: `Diagonal menor (d) en cm`,
+        poly_exp_para: (b, h, a) => `Si recortás el triángulo sombreado de un extremo y lo pasás al otro lado, formás un rectángulo exacto de ${b} cm × ${h} cm = ${a} cm².`,
+        poly_exp_trap: (B, b, h, a) => `Un trapecio equivale a la mitad de un paralelogramo de base (${B} + ${b}) cm y altura ${h} cm. Su área es (${B} + ${b}) × ${h} / 2 = ${a} cm².`,
+        poly_exp_romb: (D, d, a) => `Al encerrar el romboide en un rectángulo de ${D} cm × ${d} cm, el romboide ocupa exactamente 4 de los 8 triángulos iguales: la mitad (${a} cm²).`
+      },
+      ru: {
+        meta_grade: `Математика · 7 класс`,
+        meta_student: `Тетрадь Максима`,
+        meta_scale: `Оценка по 10-балльной шкале`,
+        hero_title: `Периметр и <mark>площадь</mark> многоугольников и кругов`,
+        hero_lede: `Изучай, как измеряются контур и поверхность фигур и окружностей, экспериментируй с интерактивными моделями и пройди самопроверку с оценкой от 1 до 10.`,
+        nav_1: `1. Единицы и контур`,
+        nav_2: `2. Лаборатория фигур`,
+        nav_3: `3. Число π и круг`,
+        nav_4: `4. Самопроверка (1–10)`,
+        hero_card_kicker: `Твой результат теста`,
+        hero_card_empty: `Задания ещё не проверены. Выполни все 10 упражнений ниже, чтобы узнать свою оценку.`,
+        s1_kicker: `01 · Основы`,
+        s1_title: `Измерить границу — не то же самое, что покрыть поверхность`,
+        s1_aside: `Две фигуры могут иметь одинаковую площадь и разный периметр, или одинаковый периметр и разную площадь.`,
+        s1_lab_title: `Интерактивная сетка: нажимай на квадраты 1 см × 1 см`,
+        s1_lab_desc: `Сторона каждой клетки — 1 см (площадь 1 см²). Кликай по клеткам, чтобы собирать разные фигуры, и следи за изменением площади и периметра.`,
+        s1_btn_pent: `Пентамино (5 см²)`,
+        s1_btn_rect: `Прямоугольник 3×2`,
+        s1_btn_clear: `Очистить`,
+        lbl_area: `Площадь`,
+        lbl_perim: `Периметр`,
+        s1_hint: `Все пентамино имеют площадь 5 клеток, но в зависимости от расположения их периметр равен 10 см или 12 см.`,
+        s1_units_kicker: `Международная система (СИ)`,
+        s1_units_title: `Соотношение единиц площади`,
+        s1_units_desc: `При изменении линейной единицы в 10 раз единица площади изменяется в 100 раз.`,
+        th_unit: `Единица`,
+        th_sym: `Обозначение`,
+        th_eq: `Равно в м²`,
+        u_km2: `Квадратный километр`,
+        u_ha: `Гектар (100 м × 100 м)`,
+        u_m2: `Квадратный метр`,
+        u_dm2: `Квадратный дециметр`,
+        u_cm2: `Квадратный сантиметр`,
+        s2_kicker: `02 · Геометрические преобразования`,
+        s2_title: `Все формулы площади выводятся из прямоугольника`,
+        s2_aside: `Отрезая и переставляя треугольники, любой параллелограмм, трапеция или дельтоид раскрывает свою точную формулу.`,
+        poly_para: `Параллелограмм`,
+        poly_trap: `Трапеция`,
+        poly_romb: `Дельтоид / Ромб`,
+        poly_btn_transform: `Показать разбиение на прямоугольник / треугольники`,
+        poly_btn_reset: `Скрыть разбиение`,
+        lbl_formula: `Формула`,
+        lbl_area_calc: `Площадь`,
+        lbl_perim_approx: `Периметр`,
+        ref_rect_k: `Прямоугольник и квадрат`,
+        ref_rect_d: `Периметр: сумма 4 сторон. Для квадрата со стороной L: P = 4 · L и A = L².`,
+        ref_para_k: `Параллелограмм`,
+        ref_para_d: `Высота (h) всегда перпендикулярна (90°) основанию. Наклонная сторона влияет только на периметр.`,
+        ref_trap_k: `Трапеция`,
+        ref_trap_d: `Берётся среднее двух оснований (B и b) и умножается на высоту (h).`,
+        ref_romb_k: `Дельтоид / Ромб`,
+        ref_romb_d: `Перпендикулярные диагонали (D и d) дают половину площади описанного прямоугольника.`,
+        s3_kicker: `03 · Окружность и круг`,
+        s3_title: `Число π связывает диаметр с длиной окружности и площадью`,
+        s3_aside: `Какого бы размера ни был круг, отношение длины окружности к её диаметру всегда равно примерно 3,14.`,
+        s3_const: `Константа π`,
+        s3_lbl_r: `Радиус (r) в см`,
+        s3_lbl_r_num: `Ввести точный радиус (см)`,
+        s3_diam: `Диаметр (d = 2·r)`,
+        s3_circ: `Длина (C = 2·π·r)`,
+        s3_area: `Площадь (A = π·r²)`,
+        s3_ratio: `Отношение C / d`,
+        s3_diff_note: `Помни разницу: <strong>окружность</strong> — это только граница (измеряется в см); <strong>круг</strong> — граница вместе с внутренней частью (в см²).`,
+        s3_viz_title: `Модель круга и развёртка длины окружности`,
+        s3_p1: `Кольцо (d = 3 см)`,
+        s3_p2: `Малая пицца (d = 20 см)`,
+        s3_p3: `Большая пицца (d = 30 см)`,
+        s4_kicker: `04 · Практикум с оценкой`,
+        s4_title: `Интерактивная самопроверка (шкала от 1 до 10)`,
+        s4_aside: `Десять задач по программе 7 класса. В задачах с кругом используй π = 3,14. Каждый верный ответ даёт 1 балл.`,
+        s4_grade_label: `Текущая оценка`,
+        s4_grade_pending: `Ещё не проверено`,
+        s4_controls_title: `Управление листом заданий`,
+        s4_controls_desc: `Ты можешь проверять задачи по одной во время тренировки или проверить всю работу целиком. Прогресс сохраняется автоматически.`,
+        s4_btn_grade_all: `Проверить весь лист (1–10)`,
+        s4_btn_reset: `Сбросить ответы`,
+        s4_btn_reset_confirm: `Нажми ещё раз для сброса`,
+        s4_btn_check: `Проверить`,
+        s4_status_pending: `Ожидает`,
+        s4_status_ok: `Верно (+1 балл)`,
+        s4_status_err: `Проверить ещё раз`,
+        s4_input_lbl: `Твой числовой ответ`,
+        s4_need_val: `Введи или выбери ответ перед проверкой.`,
+        s4_summary_fmt: (ok, total, ans) => `Ответов: ${ans}/${total} · Верных: ${ok}/${total}`,
+        s4_hero_fmt: (ok, total) => `Верно решено ${ok} из ${total} задач по 10-балльной шкале.`,
+        verdict_10: `Отлично! Тема периметра, площади и числа π полностью усвоена.`,
+        verdict_8: `Очень хорошо! Уверенное знание формул фигур и круга.`,
+        verdict_6: `Зачтено. Повтори задачи, отмеченные красным.`,
+        verdict_low: `Потренируйся в лабораториях выше и попробуй снова.`,
+        footer_src: `Материалы адаптированы по учебнику математики для 7 класса (Глава 8: Периметр и площадь фигур, Министерство образования Буэнос-Айреса).`,
+        footer_pi: `Принятое значение: π ≈ 3,14 · 10-балльная система оценивания.`,
+        poly_ctrl_b: `Основание (b) в см`,
+        poly_ctrl_h: `Высота (h) в см`,
+        poly_ctrl_skew: `Сдвиг вершины (см)`,
+        poly_ctrl_B: `Большее основание (B) в см`,
+        poly_ctrl_bmin: `Меньшее основание (b) в см`,
+        poly_ctrl_D: `Большая диагональ (D) в см`,
+        poly_ctrl_d: `Меньшая диагональ (d) в см`,
+        poly_exp_para: (b, h, a) => `Если отрезать треугольник слева и перенести его вправо, получится прямоугольник ${b} см × ${h} см = ${a} см².`,
+        poly_exp_trap: (B, b, h, a) => `Трапеция равна половине параллелограмма с основанием (${B} + ${b}) см и высотой ${h} см: (${B} + ${b}) × ${h} / 2 = ${a} см².`,
+        poly_exp_romb: (D, d, a) => `Описанный прямоугольник ${D} см × ${d} см состоит из 8 равных треугольников, а дельтоид занимает ровно 4 из них — половину (${a} см²).`
+      }
+    };
+
+    // =========================================================================
+    // 10 EXERCISES (GROUNDED IN CHAPTER 8 SOURCE)
+    // =========================================================================
+    const EXERCISES = [
+      {
+        id: 'ex1',
+        type: 'number',
+        unit: 'cm²',
+        answer: 60,
+        tolerance: 0.01,
+        topic: { es: `Pentaminós y área`, ru: `Пентамино и площадь` },
+        prompt: {
+          es: `Usando los 12 pentaminós (cada uno formado por 5 cuadraditos de 1 cm²), se arma un rectángulo completo de 10 × 6 cuadraditos sin superponer fichas. ¿Cuál es el área total del rectángulo en cm²?`,
+          ru: `Из всех 12 фигурок пентамино (каждая состоит из 5 квадратиков по 1 см²) без наложений сложили прямоугольник 10 × 6 клеток. Чему равна его общая площадь в см²?`
+        },
+        explanation: {
+          es: `12 fichas × 5 cm² = 60 cm² (y 10 cm × 6 cm = 60 cm²).`,
+          ru: `12 фигур × 5 см² = 60 см² (и 10 см × 6 см = 60 см²).`
+        },
+        svg: () => `<svg viewBox="0 0 240 150" aria-hidden="true">
+          <rect x="20" y="20" width="200" height="110" fill="#fff8b3" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="20" y1="57" x2="220" y2="57" stroke="#d0cbc3" stroke-width="1"/>
+          <line x1="20" y1="93" x2="220" y2="93" stroke="#d0cbc3" stroke-width="1"/>
+          <line x1="60" y1="20" x2="60" y2="130" stroke="#d0cbc3" stroke-width="1"/>
+          <line x1="100" y1="20" x2="100" y2="130" stroke="#d0cbc3" stroke-width="1"/>
+          <line x1="140" y1="20" x2="140" y2="130" stroke="#d0cbc3" stroke-width="1"/>
+          <line x1="180" y1="20" x2="180" y2="130" stroke="#d0cbc3" stroke-width="1"/>
+          <text x="120" y="15" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">10</text>
+          <text x="10" y="80" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">6</text>
+          <rect x="75" y="55" width="90" height="36" fill="#ffcc00" stroke="#1a1a1a" stroke-width="2"/>
+          <text x="120" y="78" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#1a1a1a">12 × 5 = ?</text>
+        </svg>`
+      },
+      {
+        id: 'ex2',
+        type: 'number',
+        unit: 'ha',
+        answer: 4,
+        tolerance: 0.01,
+        topic: { es: `Unidades y hectáreas`, ru: `Единицы и гектары` },
+        prompt: {
+          es: `Sabiendo que 1 hectárea (ha) equivale a 10.000 m², ¿cuántas hectáreas mide un terreno cuadrado de 200 m de lado?`,
+          ru: `Зная, что 1 гектар (га) равен 10 000 м², вычисли, сколько гектаров занимает квадратный участок со стороной 200 м.`
+        },
+        explanation: {
+          es: `Área = 200 m × 200 m = 40.000 m². Dividido 10.000 m²/ha = 4 ha.`,
+          ru: `Площадь = 200 м × 200 м = 40 000 м². Делим на 10 000 м²/га = 4 га.`
+        },
+        svg: () => `<svg viewBox="0 0 220 150" aria-hidden="true">
+          <rect x="50" y="20" width="110" height="110" fill="#eee9e0" stroke="#1a1a1a" stroke-width="3"/>
+          <text x="105" y="14" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">200 m</text>
+          <text x="178" y="80" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">200 m</text>
+          <text x="105" y="80" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#0055ff">? ha</text>
+        </svg>`
+      },
+      {
+        id: 'ex3',
+        type: 'mc',
+        answer: 'quad',
+        topic: { es: `Escala de rectángulos`, ru: `Масштабирование сторон` },
+        prompt: {
+          es: `Un rectángulo mide 5 cm de base y 7 cm de altura. Si se duplican tanto la base como la altura, ¿qué ocurre con el valor de su área?`,
+          ru: `Прямоугольник имеет основание 5 см и высоту 7 см. Если увеличить в 2 раза и основание, и высоту, что произойдёт с его площадью?`
+        },
+        options: [
+          { value: 'double', es: `Se duplica (× 2)`, ru: `Увеличится в 2 раза` },
+          { value: 'triple', es: `Se triplica (× 3)`, ru: `Увеличится в 3 раза` },
+          { value: 'quad', es: `Se cuadruplica (× 4)`, ru: `Увеличится в 4 раза` },
+          { value: 'same', es: `Queda igual`, ru: `Не изменится` }
+        ],
+        explanation: {
+          es: `Área original: 5 × 7 = 35 cm². Nueva área: 10 × 14 = 140 cm². Como 140 / 35 = 4, el área se cuadruplica.`,
+          ru: `Было: 5 × 7 = 35 см². Стало: 10 × 14 = 140 см². Так как 140 / 35 = 4, площадь увеличивается в 4 раза.`
+        }
+      },
+      {
+        id: 'ex4',
+        type: 'number',
+        unit: 'cm²',
+        answer: 375,
+        tolerance: 0.1,
+        topic: { es: `Área del paralelogramo`, ru: `Площадь параллелограмма` },
+        prompt: {
+          es: `Clara decora un piso con baldosas con forma de paralelogramo de 25 cm de base y 15 cm de altura. ¿Cuál es el área de cada baldosa en cm²?`,
+          ru: `Клара украшает пол плитками в форме параллелограмма с основанием 25 см и высотой 15 см. Какова площадь одной плитки в см²?`
+        },
+        explanation: {
+          es: `Para el paralelogramo, A = b × h = 25 cm × 15 cm = 375 cm².`,
+          ru: `Площадь параллелограмма A = b × h = 25 см × 15 см = 375 см².`
+        },
+        svg: () => `<svg viewBox="0 0 240 140" aria-hidden="true">
+          <polygon points="55,30 215,30 185,110 25,110" fill="#0055ff" fill-opacity="0.18" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="55" y1="30" x2="55" y2="110" stroke="#e63b2e" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <rect x="55" y="100" width="10" height="10" fill="none" stroke="#e63b2e" stroke-width="2"/>
+          <text x="105" y="128" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">b = 25 cm</text>
+          <text x="90" y="75" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#cc0000">h = 15 cm</text>
+        </svg>`
+      },
+      {
+        id: 'ex5',
+        type: 'number',
+        unit: 'cm',
+        answer: 36,
+        tolerance: 0.01,
+        topic: { es: `Despejar la altura`, ru: `Нахождение высоты` },
+        prompt: {
+          es: `Si el área de un paralelogramo es de 900 cm² y su base mide 25 cm, ¿cuánto mide su altura en cm?`,
+          ru: `Если площадь параллелограмма равна 900 см², а его основание 25 см, чему равна его высота в см?`
+        },
+        explanation: {
+          es: `Como A = b × h, entonces h = A / b = 900 / 25 = 36 cm.`,
+          ru: `Так как A = b × h, то h = A / b = 900 / 25 = 36 см.`
+        }
+      },
+      {
+        id: 'ex6',
+        type: 'number',
+        unit: 'km',
+        answer: 3,
+        tolerance: 0.01,
+        topic: { es: `Perímetro y unidades`, ru: `Периметр и перевод единиц` },
+        prompt: {
+          es: `Un terreno de sembradío con forma de paralelogramo tiene lados opuestos de 1.000 m y 500 m (y una altura interior de 400 m). ¿Cuál es el perímetro del terreno expresado en kilómetros (km)?`,
+          ru: `Поле в форме параллелограмма имеет стороны 1000 м и 500 м (и внутреннюю высоту 400 м). Чему равен периметр поля в километрах (км)?`
+        },
+        explanation: {
+          es: `Perímetro = 1.000 + 500 + 1.000 + 500 = 3.000 m = 3 km. (La altura de 400 m sirve para el área, no para el contorno).`,
+          ru: `Периметр = 1000 + 500 + 1000 + 500 = 3000 м = 3 км. (Высота 400 м нужна для площади, но не для периметра).`
+        },
+        svg: () => `<svg viewBox="0 0 260 140" aria-hidden="true">
+          <polygon points="65,30 235,30 195,110 25,110" fill="#eee9e0" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="65" y1="30" x2="65" y2="110" stroke="#e63b2e" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="150" y="22" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">1.000 m</text>
+          <text x="32" y="68" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">500 m</text>
+          <text x="98" y="75" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="11" fill="#cc0000">h=400 m</text>
+        </svg>`
+      },
+      {
+        id: 'ex7',
+        type: 'number',
+        unit: 'm²',
+        answer: 50,
+        tolerance: 0.01,
+        topic: { es: `Área del trapecio`, ru: `Площадь трапеции` },
+        prompt: {
+          es: `Una escuela construye un escenario con forma de trapecio: su base mayor mide 12 m, su base menor mide 8 m y su altura mide 5 m. ¿Cuál es el área del escenario en m²?`,
+          ru: `Школа строит сцену в форме трапеции: большее основание — 12 м, меньшее — 8 м, высота — 5 м. Какова площадь сцены в м²?`
+        },
+        explanation: {
+          es: `A = (B + b) × h / 2 = (12 + 8) × 5 / 2 = 20 × 5 / 2 = 50 m².`,
+          ru: `A = (B + b) × h / 2 = (12 + 8) × 5 / 2 = 20 × 5 / 2 = 50 м².`
+        },
+        svg: () => `<svg viewBox="0 0 240 140" aria-hidden="true">
+          <polygon points="70,30 170,30 210,110 30,110" fill="#ffcc00" fill-opacity="0.45" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="70" y1="30" x2="70" y2="110" stroke="#0055ff" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <text x="120" y="22" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">b = 8 m</text>
+          <text x="120" y="128" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">B = 12 m</text>
+          <text x="96" y="75" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#0055ff">h = 5 m</text>
+        </svg>`
+      },
+      {
+        id: 'ex8',
+        type: 'number',
+        unit: 'cm²',
+        answer: 20,
+        tolerance: 0.01,
+        topic: { es: `Área del romboide`, ru: `Площадь дельтоида / ромба` },
+        prompt: {
+          es: `Un romboide blanco está inscripto exactamente dentro de un rectángulo cuya área mide 40 cm² (sus diagonales coinciden con los lados del rectángulo). ¿Cuál es el área del romboide en cm²?`,
+          ru: `Белый дельтоид вписан в прямоугольник площадью 40 см² (его диагонали равны сторонам прямоугольника). Чему равна площадь дельтоида в см²?`
+        },
+        explanation: {
+          es: `A = (D × d) / 2. Como D × d = 40 cm² (el área del rectángulo), el romboide mide la mitad: 20 cm².`,
+          ru: `A = (D × d) / 2. Так как D × d = 40 см² (площадь прямоугольника), дельтоид занимает ровно половину: 20 см².`
+        },
+        svg: () => `<svg viewBox="0 0 220 140" aria-hidden="true">
+          <rect x="30" y="20" width="160" height="100" fill="#e63b2e" fill-opacity="0.25" stroke="#1a1a1a" stroke-width="3"/>
+          <polygon points="110,20 190,60 110,120 30,60" fill="#faf7f2" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="110" y1="20" x2="110" y2="120" stroke="#0055ff" stroke-width="2" stroke-dasharray="4 3"/>
+          <line x1="30" y1="60" x2="190" y2="60" stroke="#0055ff" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="110" y="135" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">Rectángulo = 40 cm²</text>
+        </svg>`
+      },
+      {
+        id: 'ex9',
+        type: 'number',
+        unit: 'cm',
+        answer: 9.42,
+        tolerance: 0.05,
+        topic: { es: `Perímetro de la circunferencia`, ru: `Длина окружности` },
+        prompt: {
+          es: `Ana quiere saber el perímetro de un anillo circular que tiene un diámetro de 3 cm. Usando π = 3,14, ¿cuánto mide el contorno en cm? (Usá punto o coma decimal).`,
+          ru: `Ана хочет узнать длину окружности кольца диаметром 3 см. Принимая π = 3,14, найди длину контура в см.`
+        },
+        explanation: {
+          es: `C = π × d = 3,14 × 3 cm = 9,42 cm (o bien 2 × 3,14 × 1,5 = 9,42 cm).`,
+          ru: `C = π × d = 3,14 × 3 см = 9,42 см (или 2 × 3,14 × 1,5 = 9,42 см).`
+        },
+        svg: () => `<svg viewBox="0 0 180 140" aria-hidden="true">
+          <circle cx="90" cy="70" r="46" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+          <line x1="44" y1="70" x2="136" y2="70" stroke="#0055ff" stroke-width="2.5"/>
+          <circle cx="90" cy="70" r="3" fill="#1a1a1a"/>
+          <text x="90" y="62" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#0055ff">d = 3 cm</text>
+        </svg>`
+      },
+      {
+        id: 'ex10',
+        type: 'mc',
+        answer: 'one_big',
+        topic: { es: `Área del círculo (A = π · r²)`, ru: `Площадь круга (A = π · r²)` },
+        prompt: {
+          es: `Alejandro duda entre pedir 1 pizza redonda de 30 cm de diámetro o 2 pizzas redondas de 20 cm de diámetro cada una. ¿Cuál opción tiene MAYOR superficie total?`,
+          ru: `Алехандро выбирает между 1 круглой пиццей диаметром 30 см и 2 пиццами диаметром 20 см каждая. В каком варианте БОЛЬШЕ общая площадь?`
+        },
+        options: [
+          { value: 'one_big', es: `1 pizza de 30 cm (706,5 cm² vs 628 cm²)`, ru: `1 пицца 30 см (706,5 см² против 628 см²)` },
+          { value: 'two_small', es: `2 pizzas de 20 cm (800 cm² vs 706,5 cm²)`, ru: `2 пиццы по 20 см (800 см² против 706,5 см²)` },
+          { value: 'equal', es: `Tienen exactamente la misma superficie`, ru: `У обоих вариантов одинаковая площадь` }
+        ],
+        explanation: {
+          es: `Pizza 30 cm (r = 15): A = 3,14 × 15² = 706,5 cm². Dos pizzas de 20 cm (r = 10): 2 × (3,14 × 10²) = 2 × 314 = 628 cm². ¡Conviene la de 30 cm!`,
+          ru: `Пицца 30 см (r = 15): A = 3,14 × 15² = 706,5 см². Две по 20 см (r = 10): 2 × (3,14 × 10²) = 628 см². Одна большая пицца больше!`
+        }
+      }
+    ];
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    let appState = {
+      lang: 'es',
+      gridCells: [
+        1, 1, 1, 0, 0, 0,
+        0, 1, 0, 0, 0, 0,
+        0, 1, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0
+      ],
+      polyType: 'parallelogram',
+      polyTransformed: false,
+      polyParams: {
+        parallelogram: { b: 6, h: 3, skew: 2 },
+        trapezoid: { B: 10, b: 6, h: 4 },
+        rhomboid: { D: 10, d: 6 }
+      },
+      circleRadius: 5,
+      answers: {},     // { ex1: '60', ... }
+      checked: {}      // { ex1: true/false, ... }
+    };
+
+    // =========================================================================
+    // PERSISTENCE HELPERS
+    // =========================================================================
+    async function saveState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        // Silent fallback when outside host
+      }
+    }
+
+    async function loadState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            appState = Object.assign({}, appState, saved);
+            if (saved.polyParams) {
+              appState.polyParams = Object.assign({}, appState.polyParams, saved.polyParams);
+            }
+          }
+        }
+      } catch (err) {
+        // Silent fallback
+      }
+    }
+
+    // =========================================================================
+    // NUMBER FORMATTING BY LANG
+    // =========================================================================
+    function fmtNum(val, decimals = 1) {
+      const fixed = Number(val).toFixed(decimals);
+      return fixed.replace('.', ',');
+    }
+
+    // =========================================================================
+    // LANGUAGE SWITCHER
+    // =========================================================================
+    function setLanguage(lang) {
+      appState.lang = lang === 'ru' ? 'ru' : 'es';
+      document.documentElement.lang = appState.lang === 'ru' ? 'ru' : 'es-AR';
+
+      const btnEs = document.getElementById('btn-lang-es');
+      const btnRu = document.getElementById('btn-lang-ru');
+      if (btnEs) btnEs.setAttribute('aria-pressed', String(appState.lang === 'es'));
+      if (btnRu) btnRu.setAttribute('aria-pressed', String(appState.lang === 'ru'));
+
+      applyTranslations();
+      renderPolygonControls();
+      renderPolygonViz();
+      renderCircleViz();
+      renderExercises();
+      updateScoreboard();
+      saveState();
+    }
+
+    function applyTranslations() {
+      const dict = I18N[appState.lang];
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (key && typeof dict[key] === 'string') {
+          el.textContent = dict[key];
+        }
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-html');
+        if (key && typeof dict[key] === 'string') {
+          el.innerHTML = dict[key];
+        }
+      });
+
+      const tBtn = document.getElementById('btn-transform-poly');
+      if (tBtn) {
+        tBtn.textContent = appState.polyTransformed ? dict.poly_btn_reset : dict.poly_btn_transform;
+      }
+    }
+
+    // =========================================================================
+    // SECTION 1: INTERACTIVE UNIT GRID (6x4)
+    // =========================================================================
+    function renderUnitGrid() {
+      const container = document.getElementById('unit-grid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let i = 0; i < 24; i++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'unit-cell' + (appState.gridCells[i] ? ' active' : '');
+        cell.setAttribute('aria-pressed', String(Boolean(appState.gridCells[i])));
+        cell.setAttribute('aria-label', `Celda ${i + 1}`);
+        cell.onclick = function() {
+          appState.gridCells[i] = appState.gridCells[i] ? 0 : 1;
+          renderUnitGrid();
+          saveState();
+        };
+        container.appendChild(cell);
+      }
+      updateGridStats();
+    }
+
+    function updateGridStats() {
+      const cols = 6;
+      const rows = 4;
+      let area = 0;
+      let perimeter = 0;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          if (!appState.gridCells[idx]) continue;
+          area++;
+          // Check 4 neighbors
+          if (r === 0 || !appState.gridCells[(r - 1) * cols + c]) perimeter++;
+          if (r === rows - 1 || !appState.gridCells[(r + 1) * cols + c]) perimeter++;
+          if (c === 0 || !appState.gridCells[r * cols + (c - 1)]) perimeter++;
+          if (c === cols - 1 || !appState.gridCells[r * cols + (c + 1)]) perimeter++;
+        }
+      }
+
+      const areaEl = document.getElementById('grid-area-val');
+      const perimEl = document.getElementById('grid-perim-val');
+      const unitArea = appState.lang === 'ru' ? 'см²' : 'cm²';
+      const unitLen = appState.lang === 'ru' ? 'см' : 'cm';
+      if (areaEl) areaEl.textContent = `${area} ${unitArea}`;
+      if (perimEl) perimEl.textContent = `${perimeter} ${unitLen}`;
+    }
+
+    function presetGrid(mode) {
+      if (mode === 'pentamino') {
+        appState.gridCells = [
+          1, 1, 1, 0, 0, 0,
+          0, 1, 0, 0, 0, 0,
+          0, 1, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0
+        ];
+      } else if (mode === 'rect') {
+        appState.gridCells = [
+          0, 1, 1, 1, 0, 0,
+          0, 1, 1, 1, 0, 0,
+          0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0
+        ];
+      } else {
+        appState.gridCells = new Array(24).fill(0);
+      }
+      renderUnitGrid();
+      saveState();
+    }
+
+    // =========================================================================
+    // SECTION 2: POLYGON LAB
+    // =========================================================================
+    function selectPolygon(type) {
+      appState.polyType = type;
+      const tabs = {
+        parallelogram: 'tab-para',
+        trapezoid: 'tab-trap',
+        rhomboid: 'tab-romb'
+      };
+      Object.keys(tabs).forEach((k) => {
+        const btn = document.getElementById(tabs[k]);
+        if (btn) btn.setAttribute('aria-selected', String(k === type));
+      });
+      renderPolygonControls();
+      renderPolygonViz();
+      saveState();
+    }
+
+    function togglePolyTransform() {
+      appState.polyTransformed = !appState.polyTransformed;
+      const dict = I18N[appState.lang];
+      const btn = document.getElementById('btn-transform-poly');
+      if (btn) {
+        btn.textContent = appState.polyTransformed ? dict.poly_btn_reset : dict.poly_btn_transform;
+      }
+      renderPolygonViz();
+      saveState();
+    }
+
+    function updatePolyParam(key, val) {
+      const num = parseFloat(val);
+      if (isNaN(num)) return;
+      appState.polyParams[appState.polyType][key] = num;
+      const badge = document.getElementById(`badge-${key}`);
+      if (badge) badge.textContent = `${fmtNum(num, 1)} ${appState.lang === 'ru' ? 'см' : 'cm'}`;
+      renderPolygonViz();
+      saveState();
+    }
+
+    function renderPolygonControls() {
+      const container = document.getElementById('poly-controls');
+      if (!container) return;
+      const dict = I18N[appState.lang];
+      const t = appState.polyType;
+      const p = appState.polyParams[t];
+      const unit = appState.lang === 'ru' ? 'см' : 'cm';
+
+      let controls = [];
+      if (t === 'parallelogram') {
+        controls = [
+          { key: 'b', label: dict.poly_ctrl_b, min: 3, max: 10, step: 0.5, val: p.b },
+          { key: 'h', label: dict.poly_ctrl_h, min: 2, max: 6, step: 0.5, val: p.h },
+          { key: 'skew', label: dict.poly_ctrl_skew, min: 0, max: 4, step: 0.5, val: p.skew }
+        ];
+      } else if (t === 'trapezoid') {
+        controls = [
+          { key: 'B', label: dict.poly_ctrl_B, min: 5, max: 12, step: 0.5, val: p.B },
+          { key: 'b', label: dict.poly_ctrl_bmin, min: 2, max: 8, step: 0.5, val: p.b },
+          { key: 'h', label: dict.poly_ctrl_h, min: 2, max: 6, step: 0.5, val: p.h }
+        ];
+      } else {
+        controls = [
+          { key: 'D', label: dict.poly_ctrl_D, min: 4, max: 12, step: 0.5, val: p.D },
+          { key: 'd', label: dict.poly_ctrl_d, min: 2, max: 8, step: 0.5, val: p.d }
+        ];
+      }
+
+      container.innerHTML = controls.map((c) => `
+        <div class="control-group">
+          <label class="control-label" for="ctrl-${c.key}">
+            <span>${c.label}</span>
+            <span class="control-value" id="badge-${c.key}">${fmtNum(c.val, 1)} ${unit}</span>
+          </label>
+          <input type="range" id="ctrl-${c.key}" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.val}" oninput="updatePolyParam('${c.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function renderPolygonViz() {
+      const svg = document.getElementById('poly-svg');
+      const formulaEl = document.getElementById('poly-formula');
+      const areaEl = document.getElementById('poly-area-out');
+      const perimEl = document.getElementById('poly-perim-out');
+      const expEl = document.getElementById('poly-explanation');
+      if (!svg) return;
+
+      const dict = I18N[appState.lang];
+      const t = appState.polyType;
+      const p = appState.polyParams[t];
+      const unit = appState.lang === 'ru' ? 'см' : 'cm';
+      const unitSq = appState.lang === 'ru' ? 'см²' : 'cm²';
+      const scale = 30; // px per cm
+
+      let gridHtml = '';
+      for (let x = 20; x <= 500; x += scale) {
+        gridHtml += `<line x1="${x}" y1="20" x2="${x}" y2="280" stroke="#e8e3da" stroke-width="1"/>`;
+      }
+      for (let y = 20; y <= 280; y += scale) {
+        gridHtml += `<line x1="20" y1="${y}" x2="500" y2="${y}" stroke="#e8e3da" stroke-width="1"/>`;
+      }
+
+      let shapeHtml = '';
+      let area = 0;
+      let perim = 0;
+
+      if (t === 'parallelogram') {
+        const bPx = p.b * scale;
+        const hPx = p.h * scale;
+        const skPx = p.skew * scale;
+        const x0 = 90;
+        const yBottom = 230;
+        const yTop = yBottom - hPx;
+
+        area = p.b * p.h;
+        const side = Math.hypot(p.skew, p.h);
+        perim = 2 * (p.b + side);
+
+        if (formulaEl) formulaEl.textContent = `A = b × h`;
+        if (expEl) expEl.textContent = dict.poly_exp_para(fmtNum(p.b, 1), fmtNum(p.h, 1), fmtNum(area, 1));
+
+        // Base parallelogram
+        shapeHtml = `
+          <polygon points="${x0 + skPx},${yTop} ${x0 + skPx + bPx},${yTop} ${x0 + bPx},${yBottom} ${x0},${yBottom}"
+            fill="#0055ff" fill-opacity="0.22" stroke="#1a1a1a" stroke-width="3"/>
+        `;
+        if (appState.polyTransformed && p.skew > 0) {
+          shapeHtml += `
+            <polygon points="${x0},${yBottom} ${x0 + skPx},${yBottom} ${x0 + skPx},${yTop}"
+              fill="#e63b2e" fill-opacity="0.45" stroke="#e63b2e" stroke-width="2" stroke-dasharray="4 3"/>
+            <polygon points="${x0 + bPx},${yBottom} ${x0 + skPx + bPx},${yBottom} ${x0 + skPx + bPx},${yTop}"
+              fill="#ffcc00" fill-opacity="0.65" stroke="#1a1a1a" stroke-width="2.5"/>
+          `;
+        }
+        // Height line
+        shapeHtml += `
+          <line x1="${x0 + skPx}" y1="${yTop}" x2="${x0 + skPx}" y2="${yBottom}" stroke="#cc0000" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <rect x="${x0 + skPx}" y="${yBottom - 10}" width="10" height="10" fill="none" stroke="#cc0000" stroke-width="2"/>
+          <text x="${x0 + bPx / 2}" y="${yBottom + 22}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#1a1a1a">b = ${fmtNum(p.b, 1)} ${unit}</text>
+          <text x="${x0 + skPx - 8}" y="${(yTop + yBottom) / 2}" text-anchor="end" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#cc0000">h = ${fmtNum(p.h, 1)} ${unit}</text>
+        `;
+      } else if (t === 'trapezoid') {
+        const B = Math.max(p.B, p.b + 0.5);
+        const b = Math.min(p.b, B - 0.5);
+        const BPx = B * scale;
+        const bPx = b * scale;
+        const hPx = p.h * scale;
+        const cx = 250;
+        const yBottom = 230;
+        const yTop = yBottom - hPx;
+
+        area = ((B + b) * p.h) / 2;
+        const leg = Math.hypot((B - b) / 2, p.h);
+        perim = B + b + 2 * leg;
+
+        if (formulaEl) formulaEl.textContent = `A = (B + b) × h / 2`;
+        if (expEl) expEl.textContent = dict.poly_exp_trap(fmtNum(B, 1), fmtNum(b, 1), fmtNum(p.h, 1), fmtNum(area, 1));
+
+        const xBL = cx - BPx / 2;
+        const xBR = cx + BPx / 2;
+        const xTL = cx - bPx / 2;
+        const xTR = cx + bPx / 2;
+
+        shapeHtml = `
+          <polygon points="${xTL},${yTop} ${xTR},${yTop} ${xBR},${yBottom} ${xBL},${yBottom}"
+            fill="#ffcc00" fill-opacity="0.45" stroke="#1a1a1a" stroke-width="3"/>
+        `;
+        if (appState.polyTransformed) {
+          shapeHtml += `
+            <rect x="${xTL}" y="${yTop}" width="${bPx}" height="${hPx}" fill="#0055ff" fill-opacity="0.2" stroke="#0055ff" stroke-width="2" stroke-dasharray="4 3"/>
+            <line x1="${xTL}" y1="${yTop}" x2="${xBR}" y2="${yBottom}" stroke="#cc0000" stroke-width="2" stroke-dasharray="4 3"/>
+          `;
+        }
+        shapeHtml += `
+          <line x1="${xTL}" y1="${yTop}" x2="${xTL}" y2="${yBottom}" stroke="#cc0000" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <text x="${cx}" y="${yTop - 10}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#1a1a1a">b = ${fmtNum(b, 1)} ${unit}</text>
+          <text x="${cx}" y="${yBottom + 22}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#1a1a1a">B = ${fmtNum(B, 1)} ${unit}</text>
+          <text x="${xTL - 8}" y="${(yTop + yBottom) / 2}" text-anchor="end" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#cc0000">h = ${fmtNum(p.h, 1)} ${unit}</text>
+        `;
+      } else {
+        const DPx = p.D * 22;
+        const dPx = p.d * 22;
+        const cx = 260;
+        const cy = 150;
+        const topY = cy - (dPx / 2);
+        const botY = cy + (dPx / 2);
+        const leftX = cx - (DPx / 2);
+        const rightX = cx + (DPx / 2);
+
+        area = (p.D * p.d) / 2;
+        const side = Math.hypot(p.D / 2, p.d / 2);
+        perim = 4 * side;
+
+        if (formulaEl) formulaEl.textContent = `A = (D × d) / 2`;
+        if (expEl) expEl.textContent = dict.poly_exp_romb(fmtNum(p.D, 1), fmtNum(p.d, 1), fmtNum(area, 1));
+
+        if (appState.polyTransformed) {
+          shapeHtml += `
+            <rect x="${leftX}" y="${topY}" width="${DPx}" height="${dPx}"
+              fill="#e63b2e" fill-opacity="0.22" stroke="#e63b2e" stroke-width="2.5" stroke-dasharray="6 4"/>
+          `;
+        }
+        shapeHtml += `
+          <polygon points="${cx},${topY} ${rightX},${cy} ${cx},${botY} ${leftX},${cy}"
+            fill="#ffcc00" fill-opacity="0.55" stroke="#1a1a1a" stroke-width="3"/>
+          <line x1="${leftX}" y1="${cy}" x2="${rightX}" y2="${cy}" stroke="#0055ff" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <line x1="${cx}" y1="${topY}" x2="${cx}" y2="${botY}" stroke="#cc0000" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <text x="${cx + 10}" y="${topY - 8}" text-anchor="start" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#cc0000">d = ${fmtNum(p.d, 1)} ${unit}</text>
+          <text x="${rightX + 8}" y="${cy + 5}" text-anchor="start" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="14" fill="#0055ff">D = ${fmtNum(p.D, 1)} ${unit}</text>
+        `;
+      }
+
+      svg.innerHTML = gridHtml + shapeHtml;
+      if (areaEl) areaEl.textContent = `${fmtNum(area, 1)} ${unitSq}`;
+      if (perimEl) perimEl.textContent = `${fmtNum(perim, 1)} ${unit}`;
+    }
+
+    // =========================================================================
+    // SECTION 3: CIRCLE LAB
+    // =========================================================================
+    function syncRadiusFromSlider(val) {
+      const r = Math.max(1, Math.min(50, parseFloat(val) || 5));
+      appState.circleRadius = r;
+      const numInput = document.getElementById('num-radius');
+      if (numInput) numInput.value = r;
+      renderCircleViz();
+      saveState();
+    }
+
+    function syncRadiusFromNumber(val) {
+      const r = Math.max(1, Math.min(50, parseFloat(val) || 1));
+      appState.circleRadius = r;
+      const slider = document.getElementById('slider-radius');
+      if (slider) slider.value = Math.min(15, r);
+      renderCircleViz();
+      saveState();
+    }
+
+    function setCirclePreset(r) {
+      appState.circleRadius = r;
+      const slider = document.getElementById('slider-radius');
+      const numInput = document.getElementById('num-radius');
+      if (slider) slider.value = Math.min(15, r);
+      if (numInput) numInput.value = r;
+      renderCircleViz();
+      saveState();
+    }
+
+    function renderCircleViz() {
+      const r = appState.circleRadius;
+      const d = 2 * r;
+      const pi = 3.14;
+      const C = 2 * pi * r;
+      const A = pi * r * r;
+
+      const unit = appState.lang === 'ru' ? 'см' : 'cm';
+      const unitSq = appState.lang === 'ru' ? 'см²' : 'cm²';
+
+      const valBadge = document.getElementById('val-radius');
+      const dOut = document.getElementById('circle-d-out');
+      const cOut = document.getElementById('circle-c-out');
+      const aOut = document.getElementById('circle-a-out');
+
+      if (valBadge) valBadge.textContent = `${fmtNum(r, 1)} ${unit}`;
+      if (dOut) dOut.textContent = `${fmtNum(d, 1)} ${unit}`;
+      if (cOut) cOut.textContent = `${fmtNum(C, 2)} ${unit}`;
+      if (aOut) aOut.textContent = `${fmtNum(A, 2)} ${unitSq}`;
+
+      const svg = document.getElementById('circle-svg');
+      if (!svg) return;
+
+      // Visual radius capped smoothly in SVG space (24px to 96px)
+      const rPx = Math.min(92, Math.max(22, r * 6));
+      const cx = 140;
+      const cy = 125;
+
+      // Unrolled circumference bar proportional up to 480px
+      const maxBar = 460;
+      const barW = Math.min(maxBar, Math.max(70, (C / 94.2) * maxBar));
+      const dBar = Math.min(maxBar / 3.14, barW / 3.14);
+
+      const lblCirc = appState.lang === 'ru' ? `Развёрнутая окружность C ≈ 3,14 × d` : `Contorno desenrollado C ≈ 3,14 × d`;
+      const lblDiam = appState.lang === 'ru' ? `Диаметр` : `Diámetro`;
+
+      svg.innerHTML = `
+        <circle cx="${cx}" cy="${cy}" r="${rPx}" fill="#ffcc00" fill-opacity="0.4" stroke="#1a1a1a" stroke-width="4"/>
+        <line x1="${cx - rPx}" y1="${cy}" x2="${cx + rPx}" y2="${cy}" stroke="#0055ff" stroke-width="2.5" stroke-dasharray="5 3"/>
+        <line x1="${cx}" y1="${cy}" x2="${cx + rPx}" y2="${cy - 0}" stroke="#e63b2e" stroke-width="3.5"/>
+        <circle cx="${cx}" cy="${cy}" r="4.5" fill="#1a1a1a"/>
+        <text x="${cx + rPx / 2}" y="${cy - 10}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#cc0000">r = ${fmtNum(r, 1)} ${unit}</text>
+        <text x="${cx}" y="${cy + 20}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#0055ff">d = ${fmtNum(d, 1)} ${unit}</text>
+
+        <!-- Side formula breakdown -->
+        <rect x="275" y="42" width="235" height="150" fill="#f2ede5" stroke="#1a1a1a" stroke-width="2.5"/>
+        <text x="290" y="72" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">C = 2 × 3,14 × ${fmtNum(r, 1)}</text>
+        <text x="290" y="96" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="18" fill="#0055ff">= ${fmtNum(C, 2)} ${unit}</text>
+        <line x1="290" y1="112" x2="490" y2="112" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="290" y="138" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="13" fill="#1a1a1a">A = 3,14 × (${fmtNum(r, 1)})²</text>
+        <text x="290" y="164" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="18" fill="#cc0000">= ${fmtNum(A, 2)} ${unitSq}</text>
+
+        <!-- Unrolled bar -->
+        <text x="40" y="246" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="12" fill="#1a1a1a">${lblCirc}</text>
+        <rect x="40" y="256" width="${barW}" height="18" fill="#1a1a1a"/>
+        <rect x="40" y="280" width="${dBar}" height="10" fill="#0055ff"/>
+        <rect x="${40 + dBar}" y="280" width="${dBar}" height="10" fill="#0055ff" fill-opacity="0.7"/>
+        <rect x="${40 + dBar * 2}" y="280" width="${dBar}" height="10" fill="#0055ff" fill-opacity="0.45"/>
+        <text x="${40 + dBar * 3 + 8}" y="289" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="11" fill="#0055ff">3,14 × ${lblDiam}</text>
+      `;
+    }
+
+    // =========================================================================
+    // SECTION 4: SELF-ASSESSMENT (BASE 10)
+    // =========================================================================
+    function renderExercises() {
+      const list = document.getElementById('exercise-list');
+      if (!list) return;
+      const lang = appState.lang;
+      const dict = I18N[lang];
+
+      list.innerHTML = EXERCISES.map((ex, idx) => {
+        const savedVal = appState.answers[ex.id] !== undefined ? String(appState.answers[ex.id]) : '';
+        const status = appState.checked[ex.id]; // undefined | true | false
+
+        let cardClass = 'exercise-card';
+        let statusClass = 'exercise-status';
+        let statusText = dict.s4_status_pending;
+        if (status === true) {
+          cardClass += ' state-correct';
+          statusClass += ' ok';
+          statusText = dict.s4_status_ok;
+        } else if (status === false) {
+          cardClass += ' state-wrong';
+          statusClass += ' err';
+          statusText = dict.s4_status_err;
+        }
+
+        let inputHtml = '';
+        if (ex.type === 'number') {
+          inputHtml = `
+            <div class="input-row">
+              <div class="input-field-wrap">
+                <label for="inp-${ex.id}">${dict.s4_input_lbl} (${ex.unit})</label>
+                <input type="text" inputmode="decimal" id="inp-${ex.id}" class="text-input"
+                  value="${savedVal}" oninput="onExerciseInput('${ex.id}', this.value)">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="checkSingleExercise('${ex.id}')">${dict.s4_btn_check}</button>
+            </div>
+          `;
+        } else {
+          inputHtml = `
+            <div class="mc-options" role="radiogroup" aria-label="${ex.topic[lang]}">
+              ${ex.options.map((opt) => `
+                <label class="mc-label">
+                  <input type="radio" name="mc-${ex.id}" value="${opt.value}"
+                    ${savedVal === opt.value ? 'checked' : ''}
+                    onchange="onExerciseInput('${ex.id}', this.value)">
+                  <span>${opt[lang]}</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="btn-row" style="margin-top: var(--space-sm);">
+              <button type="button" class="btn btn-primary" onclick="checkSingleExercise('${ex.id}')">${dict.s4_btn_check}</button>
+            </div>
+          `;
+        }
+
+        const hasSvg = typeof ex.svg === 'function';
+        const feedbackVisible = status === true || status === false;
+        const feedbackClass = status === true ? 'feedback-banner visible ok' : (status === false ? 'feedback-banner visible err' : 'feedback-banner');
+        const feedbackMsg = status === undefined ? '' : ex.explanation[lang];
+
+        return `
+          <article class="${cardClass}" id="card-${ex.id}">
+            <div class="exercise-head">
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center;">
+                <span class="exercise-num">${lang === 'ru' ? 'Задача' : 'Ejercicio'} ${idx + 1} / 10</span>
+                <span class="figure-label">${ex.topic[lang]}</span>
+              </div>
+              <span class="${statusClass}" id="status-${ex.id}">${statusText}</span>
+            </div>
+
+            <div class="exercise-body ${hasSvg ? '' : 'no-fig'}">
+              <div>
+                <p class="prose" style="font-weight: 600; margin-bottom: var(--space-md);">${ex.prompt[lang]}</p>
+                ${inputHtml}
+              </div>
+              ${hasSvg ? `<div class="svg-stage">${ex.svg()}</div>` : ''}
+            </div>
+
+            <div class="${feedbackClass}" id="fb-${ex.id}">${feedbackMsg}</div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function onExerciseInput(exId, rawVal) {
+      appState.answers[exId] = rawVal;
+      if (appState.checked[exId] !== undefined) {
+        delete appState.checked[exId];
+        updateSingleExerciseUI(exId);
+        updateScoreboard();
+      }
+      saveState();
+    }
+
+    function evaluateExercise(ex) {
+      const raw = appState.answers[ex.id];
+      if (raw === undefined || String(raw).trim() === '') return null;
+      if (ex.type === 'number') {
+        const cleaned = String(raw).trim().replace(',', '.');
+        const num = parseFloat(cleaned);
+        if (isNaN(num)) return false;
+        return Math.abs(num - ex.answer) <= ex.tolerance;
+      }
+      return String(raw) === ex.answer;
+    }
+
+    function checkSingleExercise(exId) {
+      const ex = EXERCISES.find((e) => e.id === exId);
+      if (!ex) return;
+      const dict = I18N[appState.lang];
+      const result = evaluateExercise(ex);
+
+      if (result === null) {
+        const fb = document.getElementById(`fb-${exId}`);
+        if (fb) {
+          fb.className = 'feedback-banner visible err';
+          fb.textContent = dict.s4_need_val;
+        }
+        return;
+      }
+
+      appState.checked[exId] = result;
+      updateSingleExerciseUI(exId);
+      updateScoreboard();
+      saveState();
+    }
+
+    function updateSingleExerciseUI(exId) {
+      const ex = EXERCISES.find((e) => e.id === exId);
+      if (!ex) return;
+      const dict = I18N[appState.lang];
+      const status = appState.checked[exId];
+      const card = document.getElementById(`card-${exId}`);
+      const badge = document.getElementById(`status-${exId}`);
+      const fb = document.getElementById(`fb-${exId}`);
+
+      if (card) {
+        card.className = 'exercise-card' + (status === true ? ' state-correct' : (status === false ? ' state-wrong' : ''));
+      }
+      if (badge) {
+        badge.className = 'exercise-status' + (status === true ? ' ok' : (status === false ? ' err' : ''));
+        badge.textContent = status === true ? dict.s4_status_ok : (status === false ? dict.s4_status_err : dict.s4_status_pending);
+      }
+      if (fb) {
+        if (status === undefined) {
+          fb.className = 'feedback-banner';
+          fb.textContent = '';
+        } else {
+          fb.className = 'feedback-banner visible ' + (status ? 'ok' : 'err');
+          fb.textContent = ex.explanation[appState.lang];
+        }
+      }
+    }
+
+    function gradeAllExercises() {
+      EXERCISES.forEach((ex) => {
+        const res = evaluateExercise(ex);
+        appState.checked[ex.id] = res === null ? false : res;
+        updateSingleExerciseUI(ex.id);
+      });
+      updateScoreboard();
+      saveState();
+    }
+
+    function resetAllExercises(btn) {
+      const dict = I18N[appState.lang];
+      if (btn && btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = dict.s4_btn_reset_confirm;
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = 'false';
+        btn.textContent = dict.s4_btn_reset;
+      }
+      appState.answers = {};
+      appState.checked = {};
+      renderExercises();
+      updateScoreboard();
+      saveState();
+    }
+
+    function updateScoreboard() {
+      const dict = I18N[appState.lang];
+      const total = EXERCISES.length;
+      let checkedCount = 0;
+      let correctCount = 0;
+      let answeredCount = 0;
+
+      EXERCISES.forEach((ex) => {
+        const val = appState.answers[ex.id];
+        if (val !== undefined && String(val).trim() !== '') answeredCount++;
+        if (appState.checked[ex.id] !== undefined) {
+          checkedCount++;
+          if (appState.checked[ex.id] === true) correctCount++;
+        }
+      });
+
+      const heroGrade = document.getElementById('hero-grade');
+      const heroFill = document.getElementById('hero-progress-fill');
+      const heroText = document.getElementById('hero-progress-text');
+      const evalNum = document.getElementById('eval-grade-num');
+      const evalVerdict = document.getElementById('eval-grade-verdict');
+      const summaryLine = document.getElementById('eval-summary-line');
+
+      if (summaryLine) {
+        summaryLine.textContent = dict.s4_summary_fmt(correctCount, total, answeredCount);
+      }
+
+      if (checkedCount === 0) {
+        if (heroGrade) heroGrade.textContent = `— / 10`;
+        if (heroFill) heroFill.style.width = `0%`;
+        if (heroText) heroText.textContent = dict.hero_card_empty;
+        if (evalNum) evalNum.textContent = `— / 10`;
+        if (evalVerdict) evalVerdict.textContent = dict.s4_grade_pending;
+        return;
+      }
+
+      // Base 10 scale (minimum displayed grade 1 when graded, up to 10; or exact score out of 10)
+      const gradeBase10 = Math.max(1, correctCount);
+      const gradeDisplay = correctCount === 0 ? `1 / 10` : `${correctCount} / 10`;
+      if (heroGrade) heroGrade.textContent = gradeDisplay;
+      if (evalNum) evalNum.textContent = gradeDisplay;
+      if (heroFill) heroFill.style.width = `${(correctCount / total) * 100}%`;
+      if (heroText) heroText.textContent = dict.s4_hero_fmt(correctCount, total);
+
+      let verdict = dict.verdict_low;
+      if (gradeBase10 === 10) verdict = dict.verdict_10;
+      else if (gradeBase10 >= 8) verdict = dict.verdict_8;
+      else if (gradeBase10 >= 6) verdict = dict.verdict_6;
+
+      if (evalVerdict) evalVerdict.textContent = verdict;
+    }
+
+    // =========================================================================
+    // INIT
+    // =========================================================================
+    async function initApp() {
+      await loadState();
+      setLanguage(appState.lang || 'es');
+      renderUnitGrid();
+      selectPolygon(appState.polyType || 'parallelogram');
+      setCirclePreset(appState.circleRadius || 5);
+      renderExercises();
+      updateScoreboard();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
